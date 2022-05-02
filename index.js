@@ -20,11 +20,14 @@ const prompt = async () => {
         }).then(async (choice) => {
             if (choice.choice==="view all departments") {
                 // show the departments then prompt again
-                 department.get()
+                 const departmentsTable = await department.get
+                 console.table(departmentsTable)
                 prompt()
             }
             if (choice.choice==="view all roles") {
-                role.get()
+               const rolesTable = await role.get
+               console.table(rolesTable)
+                prompt()
             }
             if (choice.choice==="view all employees") {
                 const employeesTable = await employee.get
@@ -32,16 +35,16 @@ const prompt = async () => {
                 prompt()
             }
             if (choice.choice==="add a department") {
-                department.get()
+                addDepartment()
             }
             if (choice.choice==="add a role") {
-                department.get()
+                addRole()
             }
             if (choice.choice==="add an employee") {
              addEmployee()
             }
             if (choice.choice==="update an employee role") {
-                department.get()
+                updateRole()
             }
             if (choice.choice==="quit") {
                 console.log("Ending app instance.");
@@ -55,10 +58,9 @@ async function addEmployee() {
     // gets list of current employees
 potentialManagers = await employee.getEmployeeList
 potentialManagers.push({name:"No Manager", value: null})
-console.log(potentialManagers)
 // gets list of current roles
 potentialRoles = await role.getPotentialRoles
-// console.log(potentialRoles)
+// prompts for the 4 parameters that go into the employee table
 inquirer.prompt([{
     type: "input",
     name: "first_name",
@@ -95,7 +97,9 @@ inquirer.prompt([{
     name: "manager_id",
     message: "Who is this employee's manager?",
     choices: potentialManagers
-}]).then(response => {
+}])
+// makes a new employee and then sends that employee to the database
+.then(response => {
     let newEmployee = new Employee(response.first_name,response.last_name,response.role_id,response.manager_id)
 newEmployee.post()
 prompt()
