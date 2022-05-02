@@ -10,7 +10,7 @@ const employee = new Employee
 
 
 // prompt for user to choose their actions
-const prompt = async () => {
+let prompt = async () => {
  inquirer.prompt(
         {
           type: "list",
@@ -20,17 +20,17 @@ const prompt = async () => {
         }).then(async (choice) => {
             if (choice.choice==="view all departments") {
                 // show the departments then prompt again
-                 const departmentsTable = await department.get
-                 console.table(departmentsTable)
+                 let departmentsTable = await department.get
+                 console.table(await department.get)
                 prompt()
             }
             if (choice.choice==="view all roles") {
-               const rolesTable = await role.get
+               let rolesTable = await role.get
                console.table(rolesTable)
                 prompt()
             }
             if (choice.choice==="view all employees") {
-                const employeesTable = await employee.get
+                let employeesTable = await employee.get
                 console.table(employeesTable)
                 prompt()
             }
@@ -52,6 +52,30 @@ const prompt = async () => {
             }
 
         }) }
+
+function addDepartment() {
+    inquirer.prompt({ 
+        type: "input",
+    name: "department_name",
+    message: "What is the new department?",
+    validate: (answers) => {
+        if (answers) {
+          return true;
+        } else {
+          console.log("Please enter some text!");
+          return false;
+        }
+      }})
+      // makes a new department and then sends that department to the database
+      .then(response => {
+        console.log(response)
+          let newDepartment = new Department(response.department_name)
+      newDepartment.post()
+      console.log("Department added!")
+      prompt()
+      }
+          )
+}
 
 // adds an employee 
 async function addEmployee() {
