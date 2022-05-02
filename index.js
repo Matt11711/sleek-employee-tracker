@@ -16,7 +16,7 @@ const prompt = async () => {
           type: "list",
           name: "choice",
           message: "What would you like to do?",
-          choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee role","quit"],
+          choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee role","quit"]
         }).then(async (choice) => {
             if (choice.choice==="view all departments") {
                 // show the departments then prompt again
@@ -50,10 +50,57 @@ const prompt = async () => {
 
         }) }
 
-// department.get()
-
-function addEmployee() {
-    
+// adds an employee 
+async function addEmployee() {
+    // gets list of current employees
+potentialManagers = await employee.getEmployeeList
+potentialManagers.push({name:"No Manager", value: null})
+console.log(potentialManagers)
+// gets list of current roles
+potentialRoles = await role.getPotentialRoles
+// console.log(potentialRoles)
+inquirer.prompt([{
+    type: "input",
+    name: "first_name",
+    message: "What is the employee's first name?",
+    validate: (answers) => {
+        if (answers) {
+          return true;
+        } else {
+          console.log("Please enter some text!");
+          return false;
+        }
+      }
+},
+{
+    type: "input",
+    name: "last_name",
+    message: "What is the employee's last name?",
+    validate: (answers) => {
+        if (answers) {
+          return true;
+        } else {
+          console.log("Please enter some text!");
+          return false;
+        }
+      }
+},
+{ 
+    type: "list",
+    name: "role_id",
+    message: "What is this employee's role?",
+    choices: potentialRoles
+},{ 
+    type: "list",
+    name: "manager_id",
+    message: "Who is this employee's manager?",
+    choices: potentialManagers
+}]).then(response => {
+    let newEmployee = new Employee(response.first_name,response.last_name,response.role_id,response.manager_id)
+newEmployee.post()
+prompt()
+}
+    )
 }
 
 prompt();
