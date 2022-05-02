@@ -1,4 +1,4 @@
-
+-- Used with permission from Christina
 
 -- Set up seed data for deparments
 INSERT INTO
