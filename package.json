@@ -4,5 +4,27 @@
     "dotenv": "^16.0.0",
     "inquirer": "7.0.0",
     "mysql2": "^2.3.3"
-  }
+  },
+  "name": "sleek-employee-tracker",
+  "description": "[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matt11711/sleek-employee-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Matt11711/sleek-employee-tracker/issues"
+  },
+  "homepage": "https://github.com/Matt11711/sleek-employee-tracker#readme"
 }

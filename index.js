@@ -110,7 +110,7 @@ async function addRole() {
         name: "salary",
         message: "What is this role's base salary?",
         validate: (answers) => {
-          if (Number.isInteger(parseInt(answers,10))) {
+          if (Number.isInteger(parseInt(answers, 10))) {
             return true;
           } else {
             console.log("Please enter a number!");
@@ -127,15 +127,15 @@ async function addRole() {
     ])
     // makes a new role and then sends that role to the database
     .then((response) => {
-        let newRole = new Role(
-          response.title,
-          response.salary,
-          response.department_id
-        );
-        newRole.post();
-        console.log("Role added!");
-        prompt();
-      });
+      let newRole = new Role(
+        response.title,
+        response.salary,
+        response.department_id
+      );
+      newRole.post();
+      console.log("Role added!");
+      prompt();
+    });
 }
 
 // adds an employee
@@ -202,26 +202,32 @@ async function addEmployee() {
 }
 
 async function updateRole() {
-     // gets list of current employees
+  // gets list of current employees
   let employeeList = await employee.getEmployeeList();
- let potentialRoles = await role.getPotentialRoles();
-  inquirer.prompt([  {
-    type: "list",
-    name: "employee_id",
-    message: "Which employee are your trying to change?",
-    choices: employeeList
-  },
-  {
-    type: "list",
-    name: "role_id",
-    message: "Which role are you moving them to?",
-    choices: potentialRoles
-  },
-]).then(response => {
-    employee.update(response.role_id, response.employee_id)
-    console.log("Role updated!")
-    prompt()
-})
+  //   gets list of current roles
+  let potentialRoles = await role.getPotentialRoles();
+  //  prompts user to select the employee and the role
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "employee_id",
+        message: "Which employee are your trying to change?",
+        choices: employeeList,
+      },
+      {
+        type: "list",
+        name: "role_id",
+        message: "Which role are you moving them to?",
+        choices: potentialRoles,
+      },
+      //   updates the employee's role in the table
+    ])
+    .then((response) => {
+      employee.update(response.role_id, response.employee_id);
+      console.log("Role updated!");
+      prompt();
+    });
 }
-
+// initializes the prompt
 prompt();
